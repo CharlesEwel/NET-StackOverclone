@@ -13,12 +13,12 @@ using System.Security.Claims;
 namespace BasicAuthentication.Controllers
 {
     [Authorize]
-    public class ToDoController : Controller
+    public class QuestionsController : Controller
     {
         private readonly ApplicationDbContext _db;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public ToDoController(UserManager<ApplicationUser> userManager, ApplicationDbContext db)
+        public QuestionsController(UserManager<ApplicationUser> userManager, ApplicationDbContext db)
         {
             _userManager = userManager;
             _db = db;
@@ -28,21 +28,38 @@ namespace BasicAuthentication.Controllers
         {
             var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             var currentUser = await _userManager.FindByIdAsync(userId);
-            return View(_db.Items.Where(x => x.User.Id == currentUser.Id));
+            return View(_db.Questions.Where(x => x.User.Id == currentUser.Id));
         }
         public IActionResult Create()
         {
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> Create(Item item)
+        public async Task<IActionResult> Create(Question question)
         {
             var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             var currentUser = await _userManager.FindByIdAsync(userId);
-            item.User = currentUser;
-            _db.Items.Add(item);
+            question.User = currentUser;
+            _db.Questions.Add(question);
             _db.SaveChanges();
             return RedirectToAction("Index");
+        }
+        public IActionResult Answer(int questionId)
+        {
+            ViewBag.QuestionId = questionId;
+            return View();
+        }
+        [HttpPost]
+        public IActionResult Answer(Answer answer)
+        {
+            Console.WriteLine(answer);
+            _db.Answers.Add(answer);
+            _db.SaveChanges();
+            return RedirectToAction("AnswerDisplay", answer);
+        }
+        public IActionResult AnswerDisplay(Answer answer)
+        {
+            return View(answer);
         }
     }
 }

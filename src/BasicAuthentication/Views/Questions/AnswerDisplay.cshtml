@@ -1,0 +1,17 @@
+﻿@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using System.Security.Claims
+@model BasicAuthentication.Models.Answer
+
+<h2>Here is your answer</h2>
+<hr />
+
+<p>@Model.Description</p>
+<p>@Model.QuestionId</p>
+
+
+
+@Html.ActionLink("Back to Index", "Index")

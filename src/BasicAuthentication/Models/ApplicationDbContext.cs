@@ -17,6 +17,7 @@ namespace BasicAuthentication.Models
         {
             base.OnModelCreating(builder);
         }
-        public DbSet<Item> Items { get; set; }
+        public DbSet<Question> Questions { get; set; }
+        public DbSet<Answer> Answers { get; set; }
     }
 }

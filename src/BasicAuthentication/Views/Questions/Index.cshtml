@@ -1,0 +1,30 @@
+﻿@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using System.Security.Claims
+@model IEnumerable<BasicAuthentication.Models.Question>
+
+<h2>Here is your list of questions, @User.Identity.Name</h2>
+<hr />
+
+
+@if (Model.Any())
+{
+    <ul>
+        @foreach (var listItem in Model)
+        {
+            <li>@Html.DisplayFor(modelItem => listItem.Description)
+        @listItem.Id
+        @Html.ActionLink("Answer", "Answer", new { questionId = listItem.Id })</li>
+        }
+       
+    </ul>
+}
+else
+{
+    <p>No questions have been added yet!</p>
+}
+
+@Html.ActionLink("Ask new", "Create")

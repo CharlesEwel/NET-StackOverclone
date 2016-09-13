@@ -7,12 +7,13 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BasicAuthentication.Models
 {
-    [Table("Items")]
-    public class Item
+    [Table("Answers")]
+    public class Answer
     {
         [Key]
         public int Id { get; set; }
         public string Description { get; set; }
-        public virtual ApplicationUser User { get; set; }
+        public int QuestionId { get; set; }
+        public virtual Question question { get; set; }
     }
 }

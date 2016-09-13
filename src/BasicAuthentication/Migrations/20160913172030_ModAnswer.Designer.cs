@@ -8,9 +8,10 @@ using BasicAuthentication.Models;
 namespace BasicAuthentication.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20160913172030_ModAnswer")]
+    partial class ModAnswer
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.0.0-rtm-21431")
@@ -23,11 +24,11 @@ namespace BasicAuthentication.Migrations
 
                     b.Property<string>("Description");
 
-                    b.Property<int>("QuestionId");
+                    b.Property<int?>("questionId");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("QuestionId");
+                    b.HasIndex("questionId");
 
                     b.ToTable("Answers");
                 });
@@ -208,8 +209,7 @@ namespace BasicAuthentication.Migrations
                 {
                     b.HasOne("BasicAuthentication.Models.Question", "question")
                         .WithMany()
-                        .HasForeignKey("QuestionId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("questionId");
                 });
 
             modelBuilder.Entity("BasicAuthentication.Models.Question", b =>
