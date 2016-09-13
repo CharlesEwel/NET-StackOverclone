@@ -4,14 +4,20 @@
 }
 
 @using System.Security.Claims
-@model BasicAuthentication.Models.Answer
+@model BasicAuthentication.Models.Question
 
-<h2>Here is your answer</h2>
+<h2>Test: @Model.Description</h2>
 <hr />
 
-<p>@Model.Description</p>
-<p>@Model.QuestionId</p>
-
+@foreach (var listItem in Model.Answers)
+{
+    <li>
+        
+        <p>@listItem.Description | Score: @listItem.Rating</p>
+        <a href="/../Questions/AnswerUpvote/?currentAnswerId=@listItem.Id">Upvote</a>
+    </li>
+    
+}
 
 
 @Html.ActionLink("Back to Index", "Index")

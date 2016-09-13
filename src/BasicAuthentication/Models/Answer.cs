@@ -13,6 +13,8 @@ namespace BasicAuthentication.Models
         [Key]
         public int Id { get; set; }
         public string Description { get; set; }
+        public bool Featured { get; set; }
+        public int Rating { get; set; }
         public int QuestionId { get; set; }
         public virtual Question question { get; set; }
     }

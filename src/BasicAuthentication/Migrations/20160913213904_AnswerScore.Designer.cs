@@ -8,8 +8,8 @@ using BasicAuthentication.Models;
 namespace BasicAuthentication.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20160913172030_ModAnswer")]
-    partial class ModAnswer
+    [Migration("20160913213904_AnswerScore")]
+    partial class AnswerScore
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -24,11 +24,15 @@ namespace BasicAuthentication.Migrations
 
                     b.Property<string>("Description");
 
-                    b.Property<int?>("questionId");
+                    b.Property<bool>("Featured");
+
+                    b.Property<int>("QuestionId");
+
+                    b.Property<int>("Rating");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("questionId");
+                    b.HasIndex("QuestionId");
 
                     b.ToTable("Answers");
                 });
@@ -208,8 +212,9 @@ namespace BasicAuthentication.Migrations
             modelBuilder.Entity("BasicAuthentication.Models.Answer", b =>
                 {
                     b.HasOne("BasicAuthentication.Models.Question", "question")
-                        .WithMany()
-                        .HasForeignKey("questionId");
+                        .WithMany("Answers")
+                        .HasForeignKey("QuestionId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("BasicAuthentication.Models.Question", b =>

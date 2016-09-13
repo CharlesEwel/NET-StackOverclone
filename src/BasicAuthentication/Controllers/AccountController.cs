@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
 using BasicAuthentication.Models;
 using BasicAuthentication.ViewModels;
+using Microsoft.EntityFrameworkCore;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -25,7 +26,8 @@ namespace BasicAuthentication.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            var allQuestions = _db.Questions.Include(Question => Question.Answers).ToList();
+            return View(allQuestions);
         }
         public IActionResult Register()
         {

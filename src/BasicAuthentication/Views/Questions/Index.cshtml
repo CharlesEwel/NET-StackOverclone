@@ -15,7 +15,7 @@
     <ul>
         @foreach (var listItem in Model)
         {
-            <li>@Html.DisplayFor(modelItem => listItem.Description)
+            <li>@Html.ActionLink(listItem.Description, "AnswerDisplay", new { currentQuestionId = listItem.Id })
         @listItem.Id
         @Html.ActionLink("Answer", "Answer", new { questionId = listItem.Id })</li>
         }

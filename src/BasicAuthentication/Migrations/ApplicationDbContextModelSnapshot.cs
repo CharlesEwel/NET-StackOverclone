@@ -23,7 +23,11 @@ namespace BasicAuthentication.Migrations
 
                     b.Property<string>("Description");
 
+                    b.Property<bool>("Featured");
+
                     b.Property<int>("QuestionId");
+
+                    b.Property<int>("Rating");
 
                     b.HasKey("Id");
 
@@ -207,7 +211,7 @@ namespace BasicAuthentication.Migrations
             modelBuilder.Entity("BasicAuthentication.Models.Answer", b =>
                 {
                     b.HasOne("BasicAuthentication.Models.Question", "question")
-                        .WithMany()
+                        .WithMany("Answers")
                         .HasForeignKey("QuestionId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Authorization;
 using BasicAuthentication.Models;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
+using Microsoft.EntityFrameworkCore;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -52,14 +54,22 @@ namespace BasicAuthentication.Controllers
         [HttpPost]
         public IActionResult Answer(Answer answer)
         {
-            Console.WriteLine(answer);
             _db.Answers.Add(answer);
             _db.SaveChanges();
-            return RedirectToAction("AnswerDisplay", answer);
+            return RedirectToAction("index");
         }
-        public IActionResult AnswerDisplay(Answer answer)
+        public IActionResult AnswerDisplay(int currentQuestionId)
         {
-            return View(answer);
+            var currentQuestion = _db.Questions.Include(question => question.Answers).FirstOrDefault(questions => questions.Id == currentQuestionId);
+            return View(currentQuestion);
+        }
+
+        public IActionResult AnswerUpvote(int currentAnswerId)
+        {
+            Answer ratedAnswer = _db.Answers.FirstOrDefault(answers => answers.Id == currentAnswerId);
+            ratedAnswer.Rating++;
+            _db.SaveChanges();
+            return RedirectToAction("AnswerDisplay", new { currentQuestionId = ratedAnswer.QuestionId });
         }
     }
 }

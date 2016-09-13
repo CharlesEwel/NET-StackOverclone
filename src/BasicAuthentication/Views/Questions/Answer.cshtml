@@ -10,6 +10,8 @@
 @using (Html.BeginForm())
 {
     <input type="hidden" value="@ViewBag.QuestionId" id="QuestionId" name="QuestionId" />
+    <input type="hidden" value=false id="Featured" name="Featured" />
+    <input type="hidden" value=0 id="Rating" name="Rating" />
     @Html.LabelFor(model => model.Description)
     @Html.EditorFor(model => model.Description)
     <input type="submit" value="Create" />
